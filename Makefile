@@ -11,7 +11,7 @@ build:
 	go build -o $(APP_NAME) ./cmd/petfeed
 
 run:
-	./$(APP_NAME)
+	DATABASE_URL=$(DB_URL) REDIS_ADDR=$(REDIS_ADDR) ./$(APP_NAME)
 
 test:
 	go test -v ./...

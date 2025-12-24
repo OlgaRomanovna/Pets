@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"os"
 	"testing"
 
 	"petsproject/internal/repository"
@@ -12,7 +13,7 @@ func TestPetUsecase_CreateAndGetPet(t *testing.T) {
 	ctx := context.Background()
 
 	memRepo := repository.NewMemoryRepository()
-	cache := service.NewRedisCache("localhost:6379")
+	cache := service.NewRedisCache(os.Getenv("REDIS_ADDR"))
 	petUC := NewPetUsecase(memRepo, cache)
 
 	pet, err := petUC.CreatePet(ctx, "Buddy", "Dog")
@@ -37,7 +38,7 @@ func TestPetUsecase_CreateAndGetPet(t *testing.T) {
 func TestPetUsecase_CreatePetValidation(t *testing.T) {
 	ctx := context.Background()
 	memRepo := repository.NewMemoryRepository()
-	cache := service.NewRedisCache("localhost:6379")
+	cache := service.NewRedisCache(os.Getenv("REDIS_ADDR"))
 	petUC := NewPetUsecase(memRepo, cache)
 
 	_, err := petUC.CreatePet(ctx, "", "")
